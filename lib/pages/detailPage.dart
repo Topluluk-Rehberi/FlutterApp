@@ -12,23 +12,63 @@ class DetailPage extends StatefulWidget {
   _DetailPageState createState() => _DetailPageState();
 }
 
-
-
 class _DetailPageState extends State<DetailPage> {
-  bool _visible = true;
+  
+  Map<String, bool> objects = {
+    "twitter": true,
+    "github": true,
+    "website": true,
+    "facebook": true
+  };
+
+  void checkVisibilityTwitter() {
+    setState(() {
+      if (widget.communities.links.twitter == null) {
+        objects["twitter"] = false;
+      }
+    });
+  }
+
+  void checkVisibilityGithub() {
+    setState(() {
+      if (widget.communities.links.github == null) {
+        objects["github"] = false;
+      }
+    });
+  }
+
+  void checkVisibilityWebsite() {
+    setState(() {
+      if (widget.communities.links.website == null) {
+        objects["website"] = false;
+      }
+    });
+  }
+
+  void checkVisibilityFacebook() {
+    setState(() {
+      if (widget.communities.links.twitter == null) {
+        objects["facebook"] = false;
+      }
+    });
+  }
+
+  void checkVisibilityAll() {
+    checkVisibilityTwitter();
+    checkVisibilityGithub();
+    checkVisibilityWebsite();
+    checkVisibilityFacebook();
+  }
 
   @override
   void initState() {
-    checkVisibilityButton();
+    checkVisibilityAll();
+    print(objects["twitter"]);
     super.initState();
   }
 
-  void checkVisibilityButton() {
-    setState(() {
-      if(widget.communities.links.twitter == null){
-        _visible=false;
-      }
-    });
+  void visibleAffect() {
+    setState(() {});
   }
 
   @override
@@ -98,13 +138,42 @@ class _DetailPageState extends State<DetailPage> {
               style: TextStyle(fontSize: 18.0),
             ),
             SizedBox(height: 10.0),
-            Visibility(
-              visible: _visible,
-              child: IconButton(
-                  icon: Icon(EvaIcons.twitter),
-                  onPressed: () {
-                    launch(widget.communities.links.twitter);
-                  }),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Visibility(
+                  visible: objects["twitter"],
+                  child: IconButton(
+                      icon: Icon(EvaIcons.twitter),
+                      onPressed: () {
+                        launch(widget.communities.links.twitter);
+                      }),
+                ),
+                Visibility(
+                  visible: objects["github"],
+                  child: IconButton(
+                      icon: Icon(EvaIcons.github),
+                      onPressed: () {
+                        launch(widget.communities.links.github);
+                      }),
+                ),
+                Visibility(
+                  visible: objects["website"],
+                  child: IconButton(
+                      icon: Icon(Icons.alternate_email),
+                      onPressed: () {
+                        launch(widget.communities.links.website);
+                      }),
+                ),
+                Visibility(
+                  visible: objects["facebook"],
+                  child: IconButton(
+                      icon: Icon(EvaIcons.facebook),
+                      onPressed: () {
+                        launch(widget.communities.links.facebook);
+                      }),
+                ),
+              ],
             ),
           ],
         ),
